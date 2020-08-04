@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <p class="results" v-show="complete">
-      <strong v-if="score >= count/2">Congratulations!</strong>
+      <strong v-if="passed">Congratulations!</strong>
       <strong v-else>Sorry!</strong>
       You got {{score}} out of {{count}} questions.
     </p>
     <quiz-item
-      v-show="index == i"
+      v-show="isCurrent(i)"
       v-for="(item, i) in items"
       :key="i"
       :item="item"
@@ -71,6 +71,9 @@ export default {
     handleAnswerSelected(e) {
       this.$set(this.selectedAnswers, this.index, e);
     },
+    isCurrent(i) {
+      return this.index === i;
+    },
   },
   computed: {
     count: function () {
@@ -81,6 +84,9 @@ export default {
     },
     status: function () {
       return `Question ${this.index + 1} of ${this.count}`;
+    },
+    passed: function () {
+      return this.score >= this.count / 2;
     },
   },
 };
