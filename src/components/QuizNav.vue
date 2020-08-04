@@ -1,8 +1,8 @@
 <template>
   <div class="quiz-nav">
-    <button v-show="index > 0" @click="handleBack" :disabled="!allowBack">Back</button>
-    <button v-show="index + 1 < count" @click="handleNext" :disabled="!allowNext">Next</button>
-    <button v-show="count == index + 1" @click="handleSubmit" :disabled="!allowBack || !allowNext">Submit</button>
+    <button v-show="backShown" @click="handleBack" :disabled="backDisabled">Back</button>
+    <button v-show="nextShown" @click="handleNext" :disabled="nextDisabled">Next</button>
+    <button v-show="submitShown" @click="handleSubmit" :disabled="submitDisabled">Submit</button>
   </div>
 </template>
 
@@ -12,21 +12,38 @@ export default {
   props: {
     index: Number,
     count: Number,
-    allowNext: Boolean,
-    allowBack: {
-      type: Boolean,
-      default: true,
-    },
+    answered: Boolean,
+    complete: Boolean,
   },
   methods: {
     handleBack() {
-      if (this.allowBack) this.$emit("onBack");
+      if (!this.backDisabled) this.$emit("onBack");
     },
     handleNext() {
-      if (this.allowNext) this.$emit("onNext");
+      if (!this.nextDisabled) this.$emit("onNext");
     },
     handleSubmit() {
       this.$emit("onSubmit");
+    },
+  },
+  computed: {
+    backDisabled: function () {
+      return this.complete;
+    },
+    backShown: function () {
+      return this.index > 0;
+    },
+    nextDisabled: function () {
+      return !this.answered;
+    },
+    nextShown: function () {
+      return this.index + 1 < this.count;
+    },
+    submitDisabled: function () {
+      return !this.answered || this.complete;
+    },
+    submitShown: function () {
+      return this.count == this.index + 1;
     },
   },
 };

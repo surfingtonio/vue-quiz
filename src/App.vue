@@ -17,8 +17,8 @@
     <quiz-nav
       :count="count"
       :index="index"
-      :allowNext="allowNext"
-      :allowBack="!complete"
+      :answered="answered"
+      :complete="complete"
       @onNext="handleNext"
       @onBack="handleBack"
       @onSubmit="handleSubmit"
@@ -41,11 +41,9 @@ export default {
     return {
       items: [],
       answers: [],
-      count: 0,
       index: 0,
       score: 0,
-      complete: false,
-      allowNext: false,
+      complete: false
     };
   },
   created() {
@@ -53,18 +51,15 @@ export default {
       .get("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy")
       .then((res) => {
         this.items = res.data.results;
-        this.count = this.items.length;
       })
       .catch((error) => console.error(error));
   },
   methods: {
     handleBack() {
-      this.allowNext = true;
       this.index--;
     },
     handleNext() {
       this.index++;
-      this.allowNext = this.answers[this.index] !== undefined;
     },
     handleSubmit() {
       this.score = this.answers.reduce(
@@ -75,10 +70,15 @@ export default {
     },
     handleAnswerSelected(e) {
       this.$set(this.answers, this.index, e);
-      this.allowNext = true;
     },
   },
   computed: {
+    count: function () {
+      return this.items.length;
+    },
+    answered: function () {
+      return this.answers[this.index] !== undefined;
+    },
     status: function () {
       return `Question ${this.index + 1} of ${this.count}`;
     },
