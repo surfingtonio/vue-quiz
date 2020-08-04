@@ -7,9 +7,9 @@
     <ul>
       <li
         class="choice"
-        v-for="(choice, i) in choices"
+        v-for="(choice, i) in possibleAnswers"
         :key="i"
-        :class="{chosen: choice === chosen}"
+        :class="{selection: choice === selection}"
       >
         <label>
           <input type="radio" :name="name" :value="choice" @change="handleChange" />
@@ -25,14 +25,15 @@ export default {
   name: "QuizItem",
   props: {
     item: Object,
-    chosen: String,
+    selection: String,
     status: String,
   },
   data() {
     return {
-      choices: [this.item.correct_answer, ...this.item.incorrect_answers].sort(
-        () => Math.random() - 0.5
-      ),
+      possibleAnswers: [
+        this.item.correct_answer,
+        ...this.item.incorrect_answers,
+      ].sort(() => Math.random() - 0.5),
       name: `item.${Math.floor(Math.random() * 1000000)}`,
     };
   },
@@ -78,9 +79,9 @@ export default {
   color: var(--choice-hover-color);
   border: 2px solid var(--choice-hover-color);
 }
-.quiz-item .choice.chosen {
-  background: var(--chosen-background);
-  border: 2px solid var(--chosen-background);
+.quiz-item .choice.selection {
+  background: var(--selection-background);
+  border: 2px solid var(--selection-background);
   color: var(--choice-background);
 }
 .quiz-item li label {

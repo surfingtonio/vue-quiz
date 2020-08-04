@@ -11,7 +11,7 @@
       :key="i"
       :item="item"
       :status="status"
-      :chosen="answers[index]"
+      :selection="selectedAnswers[index]"
       @onAnswerSelected="handleAnswerSelected"
     />
     <quiz-nav
@@ -40,10 +40,10 @@ export default {
   data() {
     return {
       items: [],
-      answers: [],
+      selectedAnswers: [],
       index: 0,
       score: 0,
-      complete: false
+      complete: false,
     };
   },
   created() {
@@ -62,14 +62,14 @@ export default {
       this.index++;
     },
     handleSubmit() {
-      this.score = this.answers.reduce(
+      this.score = this.selectedAnswers.reduce(
         (a, c, i) => (a += this.items[i].correct_answer == c ? 1 : 0),
         0
       );
       this.complete = true;
     },
     handleAnswerSelected(e) {
-      this.$set(this.answers, this.index, e);
+      this.$set(this.selectedAnswers, this.index, e);
     },
   },
   computed: {
@@ -77,7 +77,7 @@ export default {
       return this.items.length;
     },
     answered: function () {
-      return this.answers[this.index] !== undefined;
+      return this.selectedAnswers[this.index] !== undefined;
     },
     status: function () {
       return `Question ${this.index + 1} of ${this.count}`;
@@ -99,7 +99,7 @@ export default {
   --choice-color: #3c4043;
   --choice-hover-background: #f5f5f5;
   --choice-hover-color: #1a73e8;
-  --chosen-background: #4285f4;
+  --selection-background: #4285f4;
   --question-color: #202124;
 }
 #app {
@@ -110,7 +110,7 @@ export default {
   width: 50%;
 }
 .results {
-  border: 2px solid var(--chosen-background);
+  border: 2px solid var(--selection-background);
   border-radius: var(--border-radius);
   font-size: 1.5rem;
   padding: 1rem;
