@@ -3,7 +3,7 @@
     <button v-show="backShown" @click="handleBack" :disabled="backDisabled">Back</button>
     <button v-show="nextShown" @click="handleNext" :disabled="nextDisabled">Next</button>
     <button v-show="submitShown" @click="handleSubmit" :disabled="submitDisabled">Submit</button>
-    <button v-show="reviewShown" @click="handleReviewAnswers">Review Answers</button>
+    <button v-show="reviewShown" @click="handleReviewQuestions">Review Questions</button>
   </div>
 </template>
 
@@ -27,8 +27,8 @@ export default {
     handleSubmit() {
       this.$emit("onSubmit");
     },
-    handleReviewAnswers() {
-      this.$emit("onReviewAnswers");
+    handleReviewQuestions() {
+      this.$emit("onReviewQuestions");
     },
   },
   computed: {

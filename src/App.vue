@@ -29,7 +29,7 @@
       @onNext="handleNext"
       @onBack="handleBack"
       @onSubmit="handleSubmit"
-      @onReviewAnswers="handleReviewAnswers"
+      @onReviewQuestions="handleReviewQuestions"
     />
   </div>
 </template>
@@ -63,7 +63,6 @@ export default {
       return this.index === i;
     },
     handleStart() {
-      console.log("starting");
       axios
         .get("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy")
         .then((res) => {
@@ -91,7 +90,7 @@ export default {
     handleAnswerSelected(e) {
       this.$set(this.selectedAnswers, this.index, e);
     },
-    handleReviewAnswers() {
+    handleReviewQuestions() {
       this.index = 0;
       this.showCorrectAnswer = true;
     },
