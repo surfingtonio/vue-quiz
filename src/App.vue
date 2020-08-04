@@ -18,6 +18,7 @@
       :count="count"
       :index="index"
       :allowNext="allowNext"
+      :allowBack="!complete"
       @onNext="handleNext"
       @onBack="handleBack"
       @onSubmit="handleSubmit"

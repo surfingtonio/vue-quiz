@@ -1,8 +1,8 @@
 <template>
   <div class="quiz-nav">
-    <button v-show="index > 0" @click="handleBack">Back</button>
+    <button v-show="index > 0" @click="handleBack" :disabled="!allowBack">Back</button>
     <button v-show="index + 1 < count" @click="handleNext" :disabled="!allowNext">Next</button>
-    <button v-show="count == index + 1" @click="handleSubmit" :disabled="!allowNext">Submit</button>
+    <button v-show="count == index + 1" @click="handleSubmit" :disabled="!allowBack || !allowNext">Submit</button>
   </div>
 </template>
 
@@ -13,10 +13,14 @@ export default {
     index: Number,
     count: Number,
     allowNext: Boolean,
+    allowBack: {
+      type: Boolean,
+      default: true,
+    },
   },
   methods: {
     handleBack() {
-      this.$emit("onBack");
+      if (this.allowBack) this.$emit("onBack");
     },
     handleNext() {
       if (this.allowNext) this.$emit("onNext");
