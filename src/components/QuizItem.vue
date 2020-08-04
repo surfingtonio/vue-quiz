@@ -7,12 +7,18 @@
     <ul>
       <li
         class="choice"
+        :class="{selection: choice === selection, disabled: disabled && choice !== selection}"
         v-for="(choice, i) in possibleAnswers"
         :key="i"
-        :class="{selection: choice === selection}"
       >
         <label>
-          <input type="radio" :name="name" :value="choice" @change="handleChange" />
+          <input
+            type="radio"
+            :name="name"
+            :value="choice"
+            @change="handleChange"
+            :disabled="disabled"
+          />
           <span v-html="choice" />
         </label>
       </li>
@@ -27,6 +33,7 @@ export default {
     item: Object,
     selection: String,
     status: String,
+    disabled: Boolean,
   },
   data() {
     return {
@@ -78,6 +85,10 @@ export default {
 .quiz-item .choice:hover {
   color: var(--choice-hover-color);
   border: 2px solid var(--choice-hover-color);
+}
+.quiz-item .choice.disabled:hover {
+  color: var(--choice-color);
+  border: 2px solid var(--choice-border-color);
 }
 .quiz-item .choice.selection {
   background: var(--selection-background);

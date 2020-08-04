@@ -12,6 +12,7 @@
       :item="item"
       :status="status"
       :selection="selectedAnswers[index]"
+      :disabled="complete"
       @onAnswerSelected="handleAnswerSelected"
     />
     <quiz-nav
