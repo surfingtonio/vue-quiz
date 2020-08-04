@@ -19,7 +19,10 @@
             @change="handleChange"
             :disabled="disabled"
           />
-          <span v-html="choice" />
+          <span
+            v-html="choice"
+            :class="{'correct-indicator': showCorrectAnswer && isCorrect(choice)}"
+          />
         </label>
       </li>
     </ul>
@@ -34,6 +37,7 @@ export default {
     selection: String,
     status: String,
     disabled: Boolean,
+    showCorrectAnswer: Boolean,
   },
   data() {
     return {
@@ -45,6 +49,9 @@ export default {
     };
   },
   methods: {
+    isCorrect: function (choice) {
+      return this.item.correct_answer === choice;
+    },
     handleChange: function (e) {
       this.$emit("onAnswerSelected", e.target.value);
     },
@@ -97,8 +104,18 @@ export default {
 }
 .quiz-item li label {
   cursor: pointer;
-  display: block;
+  display: flex;
   padding: 1rem;
+  position: relative;
+}
+.quiz-item .correct-indicator::after {
+  color: var(--correct-answer-color);
+  right: 1rem;
+  position: absolute;
+  content: "Correct Answer";
+}
+.quiz-item .selection .correct-indicator::after {
+  color: var(--correct-answer-selected-color);
 }
 .quiz-item li input {
   cursor: pointer;

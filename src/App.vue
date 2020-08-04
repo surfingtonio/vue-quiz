@@ -13,6 +13,7 @@
       :status="status"
       :selection="selectedAnswers[index]"
       :disabled="complete"
+      :showCorrectAnswer="showCorrectAnswer"
       @onAnswerSelected="handleAnswerSelected"
     />
     <quiz-nav
@@ -20,9 +21,11 @@
       :index="index"
       :answered="answered"
       :complete="complete"
+      :reviewing="showCorrectAnswer"
       @onNext="handleNext"
       @onBack="handleBack"
       @onSubmit="handleSubmit"
+      @onReviewAnswers="handleReviewAnswers"
     />
   </div>
 </template>
@@ -45,6 +48,7 @@ export default {
       index: 0,
       score: 0,
       complete: false,
+      showCorrectAnswer: false,
     };
   },
   created() {
@@ -56,6 +60,9 @@ export default {
       .catch((error) => console.error(error));
   },
   methods: {
+    isCurrent(i) {
+      return this.index === i;
+    },
     handleBack() {
       this.index--;
     },
@@ -72,8 +79,9 @@ export default {
     handleAnswerSelected(e) {
       this.$set(this.selectedAnswers, this.index, e);
     },
-    isCurrent(i) {
-      return this.index === i;
+    handleReviewAnswers() {
+      this.index = 0;
+      this.showCorrectAnswer = true;
     },
   },
   computed: {
@@ -106,6 +114,8 @@ export default {
   --choice-color: #3c4043;
   --choice-hover-background: #f5f5f5;
   --choice-hover-color: #1a73e8;
+  --correct-answer-color: #e00;
+  --correct-answer-selected-color: #fff;
   --selection-background: #4285f4;
   --question-color: #202124;
 }

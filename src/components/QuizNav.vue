@@ -3,6 +3,7 @@
     <button v-show="backShown" @click="handleBack" :disabled="backDisabled">Back</button>
     <button v-show="nextShown" @click="handleNext" :disabled="nextDisabled">Next</button>
     <button v-show="submitShown" @click="handleSubmit" :disabled="submitDisabled">Submit</button>
+    <button v-show="reviewShown" @click="handleReviewAnswers">Review Answers</button>
   </div>
 </template>
 
@@ -14,6 +15,7 @@ export default {
     count: Number,
     answered: Boolean,
     complete: Boolean,
+    reviewing: Boolean,
   },
   methods: {
     handleBack() {
@@ -25,10 +27,13 @@ export default {
     handleSubmit() {
       this.$emit("onSubmit");
     },
+    handleReviewAnswers() {
+      this.$emit("onReviewAnswers");
+    },
   },
   computed: {
     backDisabled: function () {
-      return this.complete;
+      return this.complete && !this.reviewing;
     },
     backShown: function () {
       return this.index > 0;
@@ -43,7 +48,10 @@ export default {
       return !this.answered || this.complete;
     },
     submitShown: function () {
-      return this.count == this.index + 1;
+      return !this.reviewing && this.count == this.index + 1;
+    },
+    reviewShown: function () {
+      return this.complete && !this.reviewing;
     },
   },
 };
