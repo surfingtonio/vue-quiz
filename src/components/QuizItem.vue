@@ -61,7 +61,7 @@ export default {
 
 <style scoped>
 .quiz-item {
-  margin: 1rem;
+  margin: 1rem 0;
 }
 .quiz-item div {
   margin: 1rem 0 1.5rem;

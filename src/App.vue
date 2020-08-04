@@ -122,9 +122,8 @@ export default {
 #app {
   font-family: Lato, sans-serif;
   margin: 1rem auto;
-  min-width: 40rem;
   padding: 1rem;
-  width: 50%;
+  width: 50rem;
 }
 .results {
   border: 2px solid var(--selection-background);
