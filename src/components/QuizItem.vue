@@ -18,6 +18,7 @@
             :value="choice"
             @change="handleChange"
             :disabled="disabled"
+            :checked="isChecked(choice)"
           />
           <span
             v-html="choice"
@@ -40,20 +41,27 @@ export default {
     showCorrectAnswer: Boolean,
   },
   data() {
-    return {
-      possibleAnswers: [
-        this.item.correct_answer,
-        ...this.item.incorrect_answers,
-      ].sort(() => Math.random() - 0.5),
-      name: `item.${Math.floor(Math.random() * 1000000)}`,
-    };
+    return {};
   },
   methods: {
+    isChecked: function (choice) {
+      return choice == this.selection;
+    },
     isCorrect: function (choice) {
       return this.item.correct_answer === choice;
     },
     handleChange: function (e) {
       this.$emit("onAnswerSelected", e.target.value);
+    },
+  },
+  computed: {
+    possibleAnswers: function () {
+      return [this.item.correct_answer, ...this.item.incorrect_answers].sort(
+        () => Math.random() - 0.5
+      );
+    },
+    name: function () {
+      return `item.${Math.floor(Math.random() * 1000000)}`;
     },
   },
 };

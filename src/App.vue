@@ -4,6 +4,10 @@
       <strong v-if="passed">Congratulations!</strong>
       <strong v-else>Sorry!</strong>
       You got {{score}} out of {{count}} questions.
+      <a
+        href="#"
+        @click.prevent="handleStart"
+      >Try again.</a>
     </p>
     <quiz-item
       v-show="isCurrent(i)"
@@ -52,16 +56,24 @@ export default {
     };
   },
   created() {
-    axios
-      .get("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy")
-      .then((res) => {
-        this.items = res.data.results;
-      })
-      .catch((error) => console.error(error));
+    this.handleStart();
   },
   methods: {
     isCurrent(i) {
       return this.index === i;
+    },
+    handleStart() {
+      console.log("starting");
+      axios
+        .get("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy")
+        .then((res) => {
+          this.items = res.data.results;
+          this.selectedAnswers = [];
+          (this.index = 0), (this.score = 0);
+          this.complete = false;
+          this.showCorrectAnswer = false;
+        })
+        .catch((error) => console.error(error));
     },
     handleBack() {
       this.index--;
